@@ -1,6 +1,5 @@
 package ru.shaldnikita.userservice.controller;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.service.UserService;
 
-import javax.persistence.RollbackException;
 import java.net.URI;
-import java.util.Collection;
 
 /**
  * @author n.shaldenkov on 10.04.2018
@@ -31,41 +28,26 @@ public class UserController {
      * @return New user location or 422 code if user is not valid
      */
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@RequestBody User user) {
-        try {
-            User result = service.createUser(user);
+    public ResponseEntity addUser(@RequestBody User user) {
+        User result = service.createUser(user);
 
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(result.getId()).toUri();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{email}")
+                .buildAndExpand(result.getEmail()).toUri();
 
-            return ResponseEntity.created(location).build();
-        } catch (TransactionSystemException e) {
-            log.error("Wrong entity");
-            return ResponseEntity.noContent().build();
-        }
+        return ResponseEntity.created(location).build();
+
     }
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/{email}")
     public @ResponseBody
-    User getUserByEmail(@PathVariable String email) {
+    User getUser(@PathVariable String email) {
         return service.findUserByEmail(email);
     }
 
-    @GetMapping("/{id}")
-    public @ResponseBody
-    User getUserById(@PathVariable Long id) {
-        return service.findUserById(id);
-    }
-
-    @GetMapping
-    public Collection<User> getUsers() {
-        return service.findAll();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserById(@PathVariable Long id) {
-        service.deleteById(id);
+    @DeleteMapping("/{email}")
+    public ResponseEntity deleteUser(@PathVariable String email) {
+        service.delete(email);
         return ResponseEntity.ok().build();
     }
 }

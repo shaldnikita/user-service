@@ -12,8 +12,4 @@ public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String email) {
         super("No user with email '" + email + "'.");
     }
-
-    public UserNotFoundException(Long id) {
-        super("No user with id '" + id + "'.");
-    }
 }

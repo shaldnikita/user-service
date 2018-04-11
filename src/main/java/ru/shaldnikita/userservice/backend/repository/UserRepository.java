@@ -10,8 +10,6 @@ import java.util.Optional;
  * @author n.shaldenkov on 10.04.2018
  */
 public interface UserRepository extends CrudRepository<User,Long> {
-
     Optional<User> findUserByEmail(String email);
-    int deleteUserByEmail(String email);
-    Collection<User> findAll();
+    int deleteByEmail(String email);
 }
