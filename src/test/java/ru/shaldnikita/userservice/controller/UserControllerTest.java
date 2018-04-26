@@ -14,9 +14,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import ru.shaldnikita.userservice.UserServiceApplication;
+import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.repository.UserRepository;
 import ru.shaldnikita.userservice.backend.service.UserService;
+import ru.shaldnikita.userservice.backend.util.UserUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -66,7 +68,7 @@ public class UserControllerTest {
     }
 
     @Before
-    public void setUp()  {
+    public void setUp() {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         users = new ArrayList<>();
 
@@ -132,12 +134,14 @@ public class UserControllerTest {
 
     @Test
     public void userFound() throws Exception {
+        ResponseUserModel expected = UserUtil.createResponseUserModel(users.get(0));
+
         mockMvc.perform(get("/users/" + users.get(0).getEmail())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(this.json(users.get(0))));
+                .andExpect(content().json(this.json(expected)));
     }
 
     @Test
@@ -167,4 +171,6 @@ public class UserControllerTest {
                 o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
         return mockHttpOutputMessage.getBodyAsString();
     }
+
+
 }

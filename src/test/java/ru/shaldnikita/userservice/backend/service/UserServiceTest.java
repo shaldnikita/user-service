@@ -9,8 +9,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.repository.UserRepository;
+import ru.shaldnikita.userservice.backend.util.UserUtil;
 import ru.shaldnikita.userservice.controller.exceptions.UserAlreadyExistsException;
 import ru.shaldnikita.userservice.controller.exceptions.UserNotFoundException;
 import ru.shaldnikita.userservice.controller.exceptions.WrongEmailException;
@@ -64,10 +66,10 @@ public class UserServiceTest {
     //get
     @Test
     public void userFound() {
-        User user = userService.findUserByEmail("nick.snow@yandex.ru");
+        ResponseUserModel user = userService.findUserByEmail("nick.snow@yandex.ru");
 
         assertNotNull(user);
-        assertEquals(testUser, user);
+        assertEquals(UserUtil.createResponseUserModel(testUser), user);
     }
 
     @Test(expected = UserNotFoundException.class)

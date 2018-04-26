@@ -5,8 +5,10 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.repository.UserRepository;
+import ru.shaldnikita.userservice.backend.util.UserUtil;
 import ru.shaldnikita.userservice.controller.exceptions.UserAlreadyExistsException;
 import ru.shaldnikita.userservice.controller.exceptions.UserNotFoundException;
 import ru.shaldnikita.userservice.controller.exceptions.WrongEmailException;
@@ -40,9 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public User findUserByEmail(String email) {
+    public ResponseUserModel findUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
-        user.setPassword(null);
-        return user;
+
+        ResponseUserModel responseUserModel = UserUtil.createResponseUserModel(user);
+        return responseUserModel;
     }
+
 }

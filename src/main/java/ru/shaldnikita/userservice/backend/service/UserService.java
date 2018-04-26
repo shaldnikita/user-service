@@ -1,5 +1,6 @@
 package ru.shaldnikita.userservice.backend.service;
 
+import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 
 /**
@@ -11,5 +12,5 @@ public interface UserService {
 
     void delete(String email);
 
-    User findUserByEmail(String email);
+    ResponseUserModel findUserByEmail(String email);
 }

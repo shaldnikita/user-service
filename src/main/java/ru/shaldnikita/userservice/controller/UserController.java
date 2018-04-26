@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.service.UserService;
 
@@ -40,8 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public @ResponseBody
-    User getUser(@PathVariable String email) {
+    public ResponseUserModel getUser(@PathVariable String email) {
         return service.findUserByEmail(email);
     }
 
