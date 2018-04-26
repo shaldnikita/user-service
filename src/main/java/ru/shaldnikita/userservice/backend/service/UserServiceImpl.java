@@ -24,9 +24,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     public User createUser(User user) {
-        if (user.getEmail() == null || !EmailValidator.getInstance().isValid(user.getEmail()))
-            throw new WrongEmailException();
-
         boolean exists = userRepository.findUserByEmail(user.getEmail()).isPresent();
         if (exists)
             throw new UserAlreadyExistsException(user.getEmail());

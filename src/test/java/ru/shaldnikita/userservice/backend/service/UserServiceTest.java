@@ -18,6 +18,7 @@ import ru.shaldnikita.userservice.controller.exceptions.UserAlreadyExistsExcepti
 import ru.shaldnikita.userservice.controller.exceptions.UserNotFoundException;
 import ru.shaldnikita.userservice.controller.exceptions.WrongEmailException;
 
+import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -28,7 +29,6 @@ import static org.junit.Assert.assertNotNull;
  * @author n.shaldenkov on 11.04.2018
  */
 @RunWith(SpringRunner.class)
-@Ignore
 public class UserServiceTest {
 
     private User testUser;
@@ -82,18 +82,6 @@ public class UserServiceTest {
     //put
     @Test(expected = UserAlreadyExistsException.class)
     public void userExistsException() {
-        userService.createUser(testUser);
-    }
-
-    @Test(expected = WrongEmailException.class)
-    public void wrongEmail() {
-        testUser.setEmail("asd");
-        userService.createUser(testUser);
-    }
-
-    @Test(expected = WrongEmailException.class)
-    public void emptyEmail() {
-        testUser.setEmail(null);
         userService.createUser(testUser);
     }
 

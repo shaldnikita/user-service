@@ -10,6 +10,7 @@ buildscript {
 	}
 }
 
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -23,16 +24,36 @@ repositories {
 	mavenCentral()
 }
 
+test {
+	testLogging {
+		// set options for log level LIFECYCLE
+		events "failed"
+		exceptionFormat "short"
+
+		// set options for log level DEBUG
+		debug {
+			events "started", "skipped", "failed"
+			exceptionFormat "full"
+		}
+
+		// remove standard output/error logging from --info builds
+		// by assigning only 'failed' and 'skipped' events
+		info.events = ["failed", "skipped"]
+	}
+}
 
 dependencies {
+	compile('commons-codec:commons-codec')
+	compile('commons-validator:commons-validator:1.6')
+	compile('mysql:mysql-connector-java')
+	compile('org.projectlombok:lombok')
+	compile('org.apache.commons:commons-compress:1.16.1')
+
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-devtools')
-	compile('org.projectlombok:lombok')
-	compile('mysql:mysql-connector-java')
-	compile('commons-codec:commons-codec')
-	compile('org.apache.commons:commons-compress:1.16.1')
-	compile('commons-validator:commons-validator:1.6')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+
 	testCompile('com.h2database:h2')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
 }

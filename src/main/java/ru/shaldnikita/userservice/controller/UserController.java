@@ -11,6 +11,7 @@ import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.service.UserService;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.net.URI;
 
 /**
@@ -50,5 +51,11 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable String email) {
         service.delete(email);
         return ResponseEntity.ok().build();
+    }
+
+
+    @ExceptionHandler(ValidationException.class)
+    public  ResponseEntity userNotValid(){
+        return ResponseEntity.badRequest().build();
     }
 }
