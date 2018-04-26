@@ -1,6 +1,7 @@
 package ru.shaldnikita.userservice.backend.service;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -27,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
  * @author n.shaldenkov on 11.04.2018
  */
 @RunWith(SpringRunner.class)
+@Ignore
 public class UserServiceTest {
 
     private User testUser;

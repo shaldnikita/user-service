@@ -9,6 +9,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -22,10 +23,14 @@ public class User {
     @Id
     private String email;
 
+    @NotNull
     private String firstName;
+    @NotNull
     private String secondName;
-
+    @NotNull
     private LocalDate birthday;
+
+    @NotNull
     private String password;
 
     public User(String firstName, String secondName, LocalDate birthday, String email, String password) {

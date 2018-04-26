@@ -10,6 +10,7 @@ import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.service.UserService;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -29,7 +30,7 @@ public class UserController {
      * @return New user location or 422 code if user is not valid
      */
     @PostMapping("/add")
-    public ResponseEntity addUser(@RequestBody User user) {
+    public ResponseEntity addUser(@RequestBody @Valid User user) {
         User result = service.createUser(user);
 
         URI location = ServletUriComponentsBuilder

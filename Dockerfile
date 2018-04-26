@@ -1,7 +1,7 @@
 FROM java:8-jre
 
-ADD ./target/userservice-2.0.1.RELEASE.jar /app/
+ADD ./build/libs/user-service.jar /app/
 
-CMD ["java", "-Xmx200m", "-jar", "/app/userservice-2.0.1.RELEASE.jar"]
+CMD ["java", "-Xmx200m", "-jar", "/app/user-service.jar"]
 
 EXPOSE 8080
