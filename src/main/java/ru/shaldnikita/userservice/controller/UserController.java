@@ -9,6 +9,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.shaldnikita.userservice.backend.entity.ResponseUserModel;
 import ru.shaldnikita.userservice.backend.entity.User;
 import ru.shaldnikita.userservice.backend.service.UserService;
+import ru.shaldnikita.userservice.controller.exceptions.UserNotFoundException;
+import ru.shaldnikita.userservice.controller.exceptions.UserNotValidException;
 
 import javax.validation.*;
 import java.net.URI;
@@ -28,6 +30,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity addUser(@RequestBody User user) {
+        log.info("trying to add user");
         validateUser(user);
 
         User result = service.createUser(user);
@@ -59,16 +62,23 @@ public class UserController {
         Set<ConstraintViolation<Object>> constraintViolations = validator
                 .validate(object);
 
+        if (constraintViolations.size() > 0)
+            buildResponseMessageAndThrowException(object, constraintViolations);
+
+    }
+
+    private void buildResponseMessageAndThrowException(User object, Set<ConstraintViolation<Object>> constraintViolations) {
+        StringBuilder sb = new StringBuilder();
 
 
-        System.out.println(object);
-        System.out.println(String.format("Кол-во ошибок: %d",
-                constraintViolations.size()));
+        sb.append(String.format("User [%s] is not valid!", object.toString()))
+                .append(String.format(" Got %d errors:", constraintViolations.size()));
 
         for (ConstraintViolation<Object> cv : constraintViolations)
-            System.out.println(String.format(
-                    "Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
+            sb.append(String.format(" Property: [%s], value: [%s], message: [%s]",
                     cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
+
+        throw new UserNotValidException(sb.toString());
     }
 
 }
