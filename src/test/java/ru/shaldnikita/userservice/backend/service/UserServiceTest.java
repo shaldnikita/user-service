@@ -1,7 +1,6 @@
 package ru.shaldnikita.userservice.backend.service;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -16,9 +15,7 @@ import ru.shaldnikita.userservice.backend.repository.UserRepository;
 import ru.shaldnikita.userservice.backend.util.UserUtil;
 import ru.shaldnikita.userservice.controller.exceptions.UserAlreadyExistsException;
 import ru.shaldnikita.userservice.controller.exceptions.UserNotFoundException;
-import ru.shaldnikita.userservice.controller.exceptions.WrongEmailException;
 
-import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -50,7 +47,6 @@ public class UserServiceTest {
     @Before
     public void setUp() {
         testUser = new User("Nick", "Snow", LocalDate.of(1998, 01, 29), "nick.snow@yandex.ru", "coolPassword");
-        testUser.setPassword(null);
 
         Mockito.when(repository.findUserByEmail(testUser.getEmail()))
                 .thenReturn(Optional.of(testUser));

@@ -1,14 +1,13 @@
 package ru.shaldnikita.userservice.backend.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -21,18 +20,20 @@ import java.time.LocalDate;
 public class User {
 
     @Id
-    @Email
-    @NotNull
+    @Email(message = "Wrong email format")
+    @NotNull(message = "Email cant be null")
+    @NotEmpty(message = "Email cant be empty")
     private String email;
-
-    @NotNull
+    @NotNull(message = "First name cant be null")
+    @NotEmpty(message = "First name cant be empty")
     private String firstName;
-    @NotNull
+    @NotNull(message = "Second name cant be null")
+    @NotEmpty(message = "Second name cant be empty")
     private String secondName;
     @NotNull
     private LocalDate birthday;
-
     @NotNull
+    @NotEmpty
     private String password;
 
     public User(String firstName, String secondName, LocalDate birthday, String email, String password) {
@@ -40,14 +41,10 @@ public class User {
         this.secondName = secondName;
         this.birthday = birthday;
         this.email = email;
-        if (password != null)
-            setPassword(password);
+        setPassword(password);
     }
 
     public void setPassword(String password) {
-        if (password != null)
-            this.password = DigestUtils.sha256Hex(password);
-        else
-            this.password = password;
+        this.password = DigestUtils.sha256Hex(password);
     }
 }

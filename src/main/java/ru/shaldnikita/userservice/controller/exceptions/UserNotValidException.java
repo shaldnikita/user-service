@@ -8,9 +8,9 @@ import javax.validation.constraints.Email;
 /**
  * @author n.shaldenkov on 11.04.2018
  */
-@ResponseStatus(HttpStatus.NO_CONTENT)
-public class WrongEmailException extends RuntimeException {
-    public WrongEmailException() {
-        super("Email is wrong or empty");
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class UserNotValidException extends RuntimeException {
+    public UserNotValidException(String message) {
+        super(message);
     }
 }
