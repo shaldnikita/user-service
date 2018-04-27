@@ -1,5 +1,6 @@
 package ru.shaldnikita.userservice.backend.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,18 +18,19 @@ import java.time.LocalDate;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
-    @Email(message = "Wrong email format")
-    @NotNull(message = "Email cant be null")
-    @NotEmpty(message = "Email cant be empty")
+    @Email
+    @NotNull
+    @NotEmpty
     private String email;
-    @NotNull(message = "First name cant be null")
-    @NotEmpty(message = "First name cant be empty")
+    @NotNull
+    @NotEmpty
     private String firstName;
-    @NotNull(message = "Second name cant be null")
-    @NotEmpty(message = "Second name cant be empty")
+    @NotNull
+    @NotEmpty
     private String secondName;
     @NotNull
     private LocalDate birthday;
@@ -41,10 +43,6 @@ public class User {
         this.secondName = secondName;
         this.birthday = birthday;
         this.email = email;
-        setPassword(password);
-    }
-
-    public void setPassword(String password) {
-        this.password = DigestUtils.sha256Hex(password);
+        this.password=password;
     }
 }

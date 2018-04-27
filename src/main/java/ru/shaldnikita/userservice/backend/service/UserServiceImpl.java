@@ -1,6 +1,7 @@
 package ru.shaldnikita.userservice.backend.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
         if (exists)
             throw new UserAlreadyExistsException(user.getEmail());
 
-        user.setPassword(user.getPassword());
+        user.setPassword(DigestUtils.sha256Hex(user.getPassword()));
         return userRepository.save(user);
 
     }

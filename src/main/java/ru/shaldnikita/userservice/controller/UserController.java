@@ -70,7 +70,6 @@ public class UserController {
     private void buildResponseMessageAndThrowException(User object, Set<ConstraintViolation<Object>> constraintViolations) {
         StringBuilder sb = new StringBuilder();
 
-
         sb.append(String.format("User [%s] is not valid!", object.toString()))
                 .append(String.format(" Got %d errors:", constraintViolations.size()));
 
